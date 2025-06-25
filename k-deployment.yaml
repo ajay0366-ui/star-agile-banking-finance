@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bankapp-ajay-deploy
+  labels:
+    app: bankapp-ajay-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bankapp-ajay-app
+  template:
+    metadata:
+      labels:
+        app: bankapp-ajay-app
+    spec:
+      containers:
+      - name: bankapp-ajay-container
+        image: ajaynew2025/bankapp-new
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bankapp-np-service
+  labels:
+    app:  bankapp-ajay-app
+spec:
+  selector:
+    app: bankapp-ajay-app
+
+  type: NodePort
+  ports:
+  - nodePort: 31028
+    port: 8082
+    targetPort: 8082
